@@ -1,0 +1,23 @@
+server {
+    listen       80;
+    server_name  www.maganda.space;
+
+    rewrite ^/(.*) https://www.maganda.space/$1;
+}
+
+server {
+    listen       443;
+    server_name www.maganda.space;
+
+    ssl_certificate /etc/nginx/conf.d/www.maganda.space/fullchain.pem;
+    ssl_certificate_key /etc/nginx/conf.d/www.maganda.space/privkey.pem;
+    #ssl_session_cache shared:SSL:1m;
+    #ssl_session_timeout 5m;
+    #ssl_ciphers HIGH:!aNULL:!MD5;
+    #ssl_prefer_server_ciphers on;
+
+    location / {
+        proxy_pass http://localhost:3000/;
+    }
+}
+
